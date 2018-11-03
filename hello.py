@@ -3,9 +3,9 @@ def hello(environ, start_response):
 
 
     d = environ['QUERY_STRING']
-    d.pop(0,1)
-    d.split("&")
-    for i in d:
+    e = d.[2:]
+    l = e.split("&")
+    for i in l:
         a += str(i) + '\n'
 
 
