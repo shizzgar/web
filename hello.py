@@ -1,14 +1,12 @@
 
-
-
 def hello(environ, start_response):
 
 
     d = environ['QUERY_STRING']
-    d.pop(0,1)
-    d.split("&")
-    for i in d:
-        a += str(i) + '\n'
+    l = d.split("&")
+    ans = []
+    for i in l:
+        ans.append(bytes(i + '\n', 'ascii'))
 
 
     status = '200 OK'
@@ -16,6 +14,6 @@ def hello(environ, start_response):
         ('Content-Type', 'text/plain')
     ]
     start_response(status, headers)
-    return a    
+    return ans
 
     
