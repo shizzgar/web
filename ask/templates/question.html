@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <br>
+    Title:{{ question.title }}
+    <br>
+    <br>
+    Text:{{ question.text }}
+    <br>
+    <br>
+    <br>
+    {% for answer in question.answer_set.all %}
+        <br>
+        Answer:{{ answer.text }}
+        <br>
+    {% endfor %}
+
+{% endblock content %}
