@@ -1,5 +1,46 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.views.decorators.http import require_GET
+from .models import Question, Answer, QuestionManager
+from django.core.paginator import Paginator
 from django.http import HttpResponse
+
+
+@require_GET
+def q_details(request, id):
+	question = get_object_or_404(Question, id = id)
+	return render(request, 'question.html',{
+		'question':		question,
+		#  остальное пожно прописать сразу в шаблоне
+	})
+
+
+@require_GET
+def q_new(request):
+	q_list = Question.objects.new()
+	limit = request.GET.get('limit', 10)
+	paginator = Paginator(q_list, limit)
+	page = request.GET.get('page', 1)
+	questions = paginator.page(page)
+	return render(request, 'new.html', {
+		"questions":	questions,
+		# "questions":	q_list,
+		# "paginator":	paginator,
+		# "page":			page,
+	})
+
+
+@require_GET
+def q_popular(request):
+	q_list = Question.objects.popular()
+	limit = request.GET.get('limit', 10)
+	paginator = Paginator(q_list, limit)
+	page = request.GET.get('page', 1)
+	questions = paginator.page(page)
+	return render(request, 'popular.html', {
+		"questions":	questions,
+		# paginator:	paginator,
+		# page:		page,
+	})
 
 
 def test(request, *args, **kwargs):
