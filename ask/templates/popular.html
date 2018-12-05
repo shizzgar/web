@@ -3,7 +3,7 @@
 {% block content %}
     {% for question in questions %}
         <br>
-        <a href="question/{{question.id}}">{{ question.title }}</a>
+        <a href="/question/{{question.id}}">{{ question.title }}</a>
         <br>
     {% endfor %}
 {% endblock content %}
