@@ -1,15 +1,26 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_GET
 from .models import Question, Answer, QuestionManager
 from django.core.paginator import Paginator
 from django.http import HttpResponse
+from .forms import AskForm, AnswerForm
 
 
-@require_GET
+
 def q_details(request, id):
 	question = get_object_or_404(Question, id = id)
+	if request.method == "POST":
+		form = AnswerForm(request.POST)
+		if form.is_valid():
+			answer = form.save(id)
+			answer.save()
+			return redirect('q_details', id=question.id)
+	else:
+		form = AnswerForm()
+
 	return render(request, 'question.html',{
 		'question':		question,
+		'form':			form,
 		#  остальное пожно прописать сразу в шаблоне
 	})
 
@@ -45,3 +56,18 @@ def q_popular(request):
 
 def test(request, *args, **kwargs):
 	return HttpResponse('OK')
+
+
+def q_add(request):
+	if request.method == "POST":
+		form = AskForm(request.POST)
+		if form.is_valid():
+			question = form.save()
+			question.save()
+			return redirect('q_details', id=question.id)
+	else:
+		form = AskForm()
+
+	return render(request, 'ask.html',{
+		'form':		form
+	})
