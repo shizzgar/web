@@ -20,7 +20,7 @@ class AskForm(forms.Form):
 
 class AnswerForm(forms.Form):
     text = forms.CharField(widget=forms.Textarea)
-    question_id = forms.CharField(widget=forms.HiddenInput(), required=False)
+    question = forms.CharField(widget=forms.HiddenInput(), required=False)
 
 
     def clean(self):
